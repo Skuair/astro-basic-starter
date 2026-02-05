@@ -1,14 +1,187 @@
 ---
+interface Props {
+    siteTitle: string;
+}
 
+const { siteTitle } = Astro.props;
 ---
 
-<nav class="bg-slate-50 p-4">
-    <div class="max-w-xl mx-auto">
-        <a href="/" title="Astro Web Framework Simple Starter Template">
-            <i class="material-icons">rocket</i>  Astro Basic Website Starter
-        </a>
+<nav class="bg-white shadow-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-3">
+                <a href="/">
+                    <div
+                        class="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6 text-white"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                </a>
+                <span class="text-xl font-bold text-gray-800">{siteTitle}</span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a
+                    href="/"
+                    class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
+                    >Accueil</a
+                >
+                <a
+                    href="/about"
+                    class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
+                    >À propos</a
+                >
+                <a
+                    href="/services"
+                    class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
+                    >Services</a
+                >
+                <a
+                    href="/contact"
+                    class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
+                    >Contact</a
+                >
+            </div>
+
+            <button
+                id="mobile-menu-button"
+                class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                aria-label="Menu mobile"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6 text-gray-700"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
     </div>
 </nav>
-<style>
-	
-</style>
+
+<div
+    id="overlay"
+    class="fixed inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300"
+>
+</div>
+
+<div
+    id="mobile-menu"
+    class="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out"
+>
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+        <div class="flex items-center gap-2">
+            <div
+                class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <span class="font-bold text-gray-800">Menu</span>
+        </div>
+        <button
+            id="close-menu-button"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            aria-label="Fermer le menu"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-700"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+
+    <nav class="flex flex-col p-4 gap-2">
+        <a
+            href="/"
+            class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
+        >
+            Accueil
+        </a>
+        <a
+            href="/about"
+            class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
+        >
+            À propos
+        </a>
+        <a
+            href="/services"
+            class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
+        >
+            Services
+        </a>
+        <a
+            href="/contact"
+            class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
+        >
+            Contact
+        </a>
+    </nav>
+</div>
+
+<script>
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const closeMenuButton = document.getElementById("close-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const overlay = document.getElementById("overlay");
+
+    function openMenu() {
+        mobileMenu?.classList.remove("translate-x-full");
+        overlay?.classList.remove("opacity-0", "pointer-events-none");
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeMenu() {
+        mobileMenu?.classList.add("translate-x-full");
+        overlay?.classList.add("opacity-0", "pointer-events-none");
+        document.body.style.overflow = "";
+    }
+
+    mobileMenuButton?.addEventListener("click", openMenu);
+    closeMenuButton?.addEventListener("click", closeMenu);
+    overlay?.addEventListener("click", closeMenu);
+
+    const menuLinks = mobileMenu?.querySelectorAll("a");
+    menuLinks?.forEach((link) => {
+        link.addEventListener("click", closeMenu);
+    });
+</script>

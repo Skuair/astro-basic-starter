@@ -1,0 +1,23 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "tailwindcss";
+
+html {
+    font-family: "Open Sans", sans-serif;
+    @apply text-slate-900;
+}
+
+h1 {
+    @apply text-5xl tracking-tight font-black text-purple-900;
+}
+
+h2 {
+    @apply text-2xl tracking-tight text-pink-600;
+}
+
+li {
+    @apply font-semibold;
+}
+
+a {
+    @apply text-sky-500 font-medium hover:text-sky-700 transition-all underline-offset-4 break-words;
+}
