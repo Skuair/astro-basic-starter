@@ -1,0 +1,144 @@
+---
+import Layout from "../../layouts/layout.astro";
+import { useTranslations } from "../../i18n/utils";
+
+const lang = Astro.currentLocale || "fr";
+const t = useTranslations(lang);
+const formTranslations = {
+    "form.name": t("form.name"),
+    "form.email": t("form.email"),
+    "form.message": t("form.message"),
+    "form.send": t("form.send"),
+    "form.sending": t("form.sending"),
+    "form.sent": t("form.sent"),
+    "form.sendError": t("form.sendError"),
+    "form.connectError": t("form.connectError"),
+};
+
+export async function getStaticPaths() {
+    return [{ params: { locale: "en" } }, { params: { locale: "fr" } }];
+}
+---
+
+<Layout
+    title="Astro Web Framework Simple Starter Template"
+    description="This is a simple starter template for the Astro Web Framework.  This is a clean boilerplate with some small useful additions."
+    keywords="Astro themes, astro web framework, astro website, astro web project, astro web app, astro javascript, astro js, astro web library, astro coding, astro web development"
+    canonicalURL="http://localhost:4321/contact"
+    robots="index, follow"
+>
+    <main class="bg-slate-100">
+        <section class="max-w-4xl mx-auto p-8">
+            <h1 class="text-center mb-6">Contact</h1>
+            <form id="contact-form" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium mb-1"
+                        >{t("form.name")}</label
+                    >
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        class="w-full px-4 py-2 border bg-white border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium mb-1"
+                        >{t("form.email")}</label
+                    >
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        class="w-full px-4 py-2 border bg-white border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                </div>
+
+                <div>
+                    <label for="message" class="block text-sm font-medium mb-1"
+                        >{t("form.message")}</label
+                    >
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="5"
+                        required
+                        class="w-full px-4 py-2 border bg-white border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    ></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+                >
+                    {t("form.send")}
+                </button>
+
+                <div id="message-status" class="hidden"></div>
+                <div
+                    id="translations-data"
+                    data-translations={JSON.stringify(formTranslations)}
+                    style="display:none;"
+                >
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const translationsEl = document.getElementById(
+            "translations-data",
+        ) as HTMLElement;
+        const translations = JSON.parse(
+            translationsEl.dataset.translations || "{}",
+        );
+        const form = document.getElementById("contact-form") as HTMLFormElement;
+        const statusDiv = document.getElementById("message-status")!;
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const submitBtn = form.querySelector(
+                'button[type="submit"]',
+            ) as HTMLButtonElement;
+            submitBtn.disabled = true;
+            submitBtn.textContent = translations["form.sending"];
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(
+                    "http://localhost:8080/contact.php",
+                    {
+                        method: "POST",
+                        body: formData,
+                    },
+                );
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    statusDiv.className =
+                        "p-4 bg-green-100 text-green-700 rounded-lg";
+                    statusDiv.textContent = translations["form.sent"];
+                    form.reset();
+                } else {
+                    statusDiv.className =
+                        "p-4 bg-red-100 text-red-700 rounded-lg";
+                    statusDiv.textContent =
+                        data.error || translations["form.sendError"];
+                }
+            } catch (error) {
+                statusDiv.className = "p-4 bg-red-100 text-red-700 rounded-lg";
+                statusDiv.textContent = translations["form.connectError"];
+            } finally {
+                statusDiv.classList.remove("hidden");
+                submitBtn.disabled = false;
+                submitBtn.textContent = translations["form.send"];
+            }
+        });
+    </script>
+</Layout>

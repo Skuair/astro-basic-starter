@@ -1,0 +1,31 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const currentPath = Astro.url.pathname;
+const currentLocale = Astro.currentLocale || "fr";
+
+// Enlever le préfixe de langue actuel
+const pathWithoutLocale = currentPath.replace(/^\/(fr|en)/, "") || "/";
+
+const languages = [
+    { code: "fr", label: "Français" },
+    { code: "en", label: "English" },
+];
+---
+
+<nav class="text-center">
+    {
+        languages.map(({ code, label }) => (
+            <a
+                href={
+                    code === "fr"
+                        ? pathWithoutLocale
+                        : getRelativeLocaleUrl(code, pathWithoutLocale)
+                }
+                class:list={[currentLocale === code && "active"]}
+            >
+                {label}
+            </a>
+        ))
+    }
+</nav>

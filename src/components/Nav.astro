@@ -1,9 +1,13 @@
 ---
+import { useTranslations } from "../i18n/utils";
+
 interface Props {
     siteTitle: string;
 }
 
 const { siteTitle } = Astro.props;
+const lang = Astro.currentLocale || "fr";
+const t = useTranslations(lang);
 ---
 
 <nav class="bg-white shadow-md sticky top-0 z-30">
@@ -34,24 +38,14 @@ const { siteTitle } = Astro.props;
 
             <div class="hidden md:flex items-center gap-8">
                 <a
-                    href="/"
+                    href=`/${lang}/`
                     class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
-                    >Accueil</a
+                    >{t("nav.home")}</a
                 >
                 <a
-                    href="/about"
+                    href=`/${lang}/contact`
                     class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
-                    >À propos</a
-                >
-                <a
-                    href="/services"
-                    class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
-                    >Services</a
-                >
-                <a
-                    href="/contact"
-                    class="text-gray-700 hover:text-sky-500 font-medium transition-colors"
-                    >Contact</a
+                    >{t("nav.contact")}</a
                 >
             </div>
 
@@ -132,28 +126,16 @@ const { siteTitle } = Astro.props;
 
     <nav class="flex flex-col p-4 gap-2">
         <a
-            href="/"
+            href=`{/${lang}/}`
             class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
         >
-            Accueil
+            {t("nav.home")}
         </a>
         <a
-            href="/about"
+            href=`{/${lang}/contact}`
             class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
         >
-            À propos
-        </a>
-        <a
-            href="/services"
-            class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
-        >
-            Services
-        </a>
-        <a
-            href="/contact"
-            class="px-4 py-3 text-gray-700 hover:bg-sky-50 hover:text-sky-600 rounded-lg font-medium transition-colors"
-        >
-            Contact
+            {t("nav.contact")}
         </a>
     </nav>
 </div>

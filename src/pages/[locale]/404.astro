@@ -1,0 +1,30 @@
+---
+import Layout from "../../layouts/layout.astro";
+import { useTranslations } from "../../i18n/utils";
+
+const lang = Astro.currentLocale || "fr";
+const t = useTranslations(lang);
+
+export async function getStaticPaths() {
+    return [{ params: { locale: "en" } }, { params: { locale: "fr" } }];
+}
+---
+
+<Layout
+    title={t("notfound")}
+    description={t("notfound_description")}
+    keywords=""
+    canonicalURL="http://localhost:4321/404"
+    robots="noindex, follow"
+>
+    <main class="bg-slate-100">
+        <section class="p-8 max-w-xl mx-auto">
+            <h1>{t("notfound")}</h1>
+            <br />
+            <p>
+                {t("notfound_description")}
+                <a href="/">{t("nav.home")}</a>.
+            </p>
+        </section>
+    </main>
+</Layout>

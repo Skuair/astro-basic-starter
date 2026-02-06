@@ -13,4 +13,11 @@ export default defineConfig({
     devToolbar: {
         enabled: false,
     },
+    i18n: {
+        defaultLocale: "fr",
+        locales: ["fr", "en"],
+        routing: {
+            prefixDefaultLocale: false, // /fr/about ou juste /about pour le défaut
+        },
+    },
 });

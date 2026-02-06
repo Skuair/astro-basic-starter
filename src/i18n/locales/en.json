@@ -1,0 +1,22 @@
+{
+  "nav": {
+    "home": "Home",
+    "contact": "Contact me"
+  },
+  "home": {
+    "welcome": "Welcome",
+    "description": "This is my site"
+  },
+  "notfound": "Page not found",
+  "notfound_description": "This page cannot be found",
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending...",
+    "sent": "Message sent !",
+    "sendError": "Send error",
+    "connectError": "Connect error"
+  }
+}

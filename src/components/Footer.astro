@@ -1,4 +1,6 @@
 ---
+import LanguagePicker from "../components/languagePicker.astro";
+
 interface Props {
     siteTitle: string;
 }
@@ -11,5 +13,6 @@ const { siteTitle } = Astro.props;
         <p>
             {siteTitle} • © {new Date().getFullYear()}
         </p>
+        <LanguagePicker />
     </section>
 </footer>
